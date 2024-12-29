@@ -1,0 +1,157 @@
+import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
+import { useProcessImageContext } from '../context/Actions/ProcessImageContext.tsx';
+import { Result } from '../interfaces/ActionStates/ProcessImage.ts';
+import Loading from '../components/Loading.tsx';
+import ErrorResults from '../components/ErrorResults.tsx';
+import useSubmitFeedback from '../actions/submitFeedback.ts';
+import { getHealth } from '../api/index.ts';
+import ServerError from '../components/ServerError.tsx';
+
+const Results = () => {
+  const [results, setResults] = useState<Result | null>(null);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const [predictionResult, setPredictionResult] = useState<string | undefined>(undefined);
+  const [predictionText, setPredictionText] = useState<string | undefined>(undefined);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [serverUp, setServerUp] = useState(true);
+  
+  const { state } = useProcessImageContext();
+
+  const submitFeedback = useSubmitFeedback();
+
+  useEffect(() => {    
+    if (state.data) {
+      // record results once processed
+      if (state.data.results != null) {
+        setResults({
+          predictedLabel: state.data.results.predicted_label,
+          confidenceLevel: state.data.results.confidence_level,
+        });
+      } 
+      // raise an error in case that the results cannot be read
+      else {
+        setError(true);
+        setErrorMessage('Results cannot be read');
+      }
+    } 
+    // raise an error in case that the image processing fails
+    else if (state.error) {
+      setError(true);
+      setErrorMessage(state.error);
+    }
+  }, [state]);
+
+  // set output texts based on prediction results
+  if (results?.predictedLabel === 'AI_GENERATED') {
+    if (predictionResult === undefined) setPredictionResult('MABE BY AI');
+    if (predictionText === undefined) setPredictionText('AI-generated');
+  } else if (results?.predictedLabel === 'NON_AI_GENERATED') {
+    if (predictionResult === undefined) setPredictionResult('MADE BY A HUMAN');
+    if (predictionText === undefined) setPredictionText('not AI-generated');
+  }
+
+  // navigate back to main page upon clicking the 'Upload Again' button
+  const handleReturn = () => {
+    window.location.href = "/";
+  }
+
+  // first checks if the server is running
+  // if server is running, then send the user feedback to the server
+  // else set serverUp to false
+  const handleFeedback = async (feedback: string) => {
+    try {
+      // check server status
+      const response = await getHealth();
+
+      // submit user feedback if server is running
+      if (response.status === 200) {
+        submitFeedback(feedback);
+        setFeedbackSubmitted(true);
+      } else {
+        setServerUp(false);
+      }
+    } catch {
+      setServerUp(false);
+    }
+  }
+
+  // sends a feedback that the classifier is accurate
+  const handleYesFeedback = () => {
+    handleFeedback("yes");
+  }
+
+  // sends a feedback that the classifier is inaccurate
+  const handleNoFeedback = () => {
+    handleFeedback("no");
+  }
+
+  // navigate back to home in case that the user might type the url path manually
+  if (state.data === null && !state.loading) {
+    return (<Navigate to='/' />);
+  }
+
+  // display loading screen message while classifier is processing the image
+  if (state.loading) {
+    const loadingMessages = [
+      "Processing image",
+      "Analyzing details",
+      "Interpreting relationships"
+    ];
+    
+    return (
+      <Loading loadingMessages={loadingMessages} />
+    );
+  };
+
+  // display server error message when server is down
+  if (!serverUp) {
+    return (<ServerError />);
+  }
+
+  // display error message when there is an error in processing the image
+  if (error) {
+    return (
+      <ErrorResults errorMessage={errorMessage === undefined ? 'An error has occurred.' : errorMessage} />
+    )
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center bg-midnight-to-red-gradient h-screen">
+      <div className="text-white mb-4 cursor-default">
+        Your image is
+      </div>
+      <div className="normal-text-glow text-8xl font-extrabold mb-8 text-center cursor-default">
+        {predictionResult}
+      </div>
+      <div className="flex text-white gap-2 mb-4 cursor-default">
+        The classifier is <div className="normal-text-glow font-bold">{results !== null && Math.round(results.confidenceLevel * 100)}%</div> certain that your art/image is {predictionText}. That's crazy 🤯
+      </div>
+      {!feedbackSubmitted ? (
+        <div className="flex text-white text-xs gap-4 cursor-default">
+          Is the classifier correct at its guess?
+          <div onClick={handleYesFeedback} className="normal-text-glow font-bold cursor-pointer duration-300 hover:green-text-glow">
+            Yes
+          </div>
+          <div onClick={handleNoFeedback} className="normal-text-glow font-bold cursor-pointer duration-300 hover:red-text-glow">
+            No
+          </div>
+        </div>
+      ) : (
+        <div className="text-white text-xs cursor-default">
+          Thanks for the feedback! 😊
+        </div>
+      )}
+      <div 
+        onClick={handleReturn}
+        className="normal-border-glow bg-pale-midnight rounded-lg w-1/6 p-2 text-white items-center mt-8 text-center cursor-pointer duration-300 hover:green-border-glow hover:font-bold"
+      >
+        Upload Again
+      </div>
+    </div>
+  );
+}
+
+export default Results;

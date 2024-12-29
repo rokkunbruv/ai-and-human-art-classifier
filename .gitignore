@@ -1,0 +1,21 @@
+# SECRETS, TOKENS AND ENVIRONMENTAL VARIABLES
+client/.env
+server/.env
+ai_model/kaggle.json
+
+# VSCODE FILES AND DIRECTORIES
+/.vscode
+
+# ENVIRONMENTS
+/venv
+
+# DEPENDENCIES
+client/node_modules
+
+# CACHE
+server/ai_art_detector_core/__pycache__
+server/ai_art_detector_core/migrations/__pycache__
+server/main/__pycache__
+
+# TESTING FILES THAT AREN'T NEEDED TO BE COMMITTED
+ai_model/test_data
