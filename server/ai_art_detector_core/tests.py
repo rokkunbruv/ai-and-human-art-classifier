@@ -4,6 +4,7 @@ from pathlib import Path
 
 from django.test import TestCase
 
+# UTILITY FUNCTIONS
 
 def convert_img_to_b64(image_path: Path) -> str:
     """converts an image path to base64 format"""

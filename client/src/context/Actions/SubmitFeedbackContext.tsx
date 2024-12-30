@@ -30,7 +30,7 @@ export const useSubmitFeedbackContext = () => {
   const context = useContext(SubmitFeedbackContext);
 
   if (!context) {
-    throw new Error('useActionContext must be within an ActionProvider');
+    throw new Error('useSubmitFeedbackContext must be within an SubmitFeedbackContextProvider');
   }
   
   return context;

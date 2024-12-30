@@ -1,6 +1,7 @@
 from django.db import models
 
 class ModelFeedback(models.Model):
+  """manages accuracy feedback from users"""
   positive_count = models.PositiveIntegerField(default=0)
   negative_count = models.PositiveIntegerField(default=0)
 

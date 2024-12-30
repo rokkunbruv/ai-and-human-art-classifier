@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { useProcessImageContext } from '../context/Actions/ProcessImageContext.tsx';
-import { Result } from '../interfaces/ActionStates/ProcessImage.ts';
 import Loading from '../components/Loading.tsx';
 import ErrorResults from '../components/ErrorResults.tsx';
+import ServerError from '../components/ServerError.tsx';
+import { useProcessImageContext } from '../context/Actions/ProcessImageContext.tsx';
 import useSubmitFeedback from '../actions/submitFeedback.ts';
 import { getHealth } from '../api/index.ts';
-import ServerError from '../components/ServerError.tsx';
+import { Result } from '../interfaces/ActionStates/ProcessImage.ts';
 
 const Results = () => {
-  const [results, setResults] = useState<Result | null>(null);
+  const [serverUp, setServerUp] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  
+  const [results, setResults] = useState<Result | null>(null);
   const [predictionResult, setPredictionResult] = useState<string | undefined>(undefined);
   const [predictionText, setPredictionText] = useState<string | undefined>(undefined);
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
-  const [serverUp, setServerUp] = useState(true);
   
   const { state } = useProcessImageContext();
 
   const submitFeedback = useSubmitFeedback();
 
+  // watches for server's response on image processing
   useEffect(() => {    
     if (state.data) {
       // record results once processed
@@ -106,12 +108,10 @@ const Results = () => {
     );
   };
 
-  // display server error message when server is down
   if (!serverUp) {
     return (<ServerError />);
   }
 
-  // display error message when there is an error in processing the image
   if (error) {
     return (
       <ErrorResults errorMessage={errorMessage === undefined ? 'An error has occurred.' : errorMessage} />

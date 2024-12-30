@@ -3,18 +3,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import FileUpload from '../components/FileUpload.tsx';
 import TitleHeader from '../components/TitleHeader.tsx';
 import ImagePreview from '../components/ImagePreview.tsx';
-import { useImageContext } from '../context/imageContext.tsx';
-import useFetchFeedback from '../actions/fetchFeedback.ts';
-import { getHealth } from '../api/index.ts';
 import ServerError from '../components/ServerError.tsx';
 import Loading from '../components/Loading.tsx';
+import { useImageContext } from '../context/imageContext.tsx';
 import { useFetchFeedbackContext } from '../context/Actions/FetchFeedbackContext.tsx';
+import useFetchFeedback from '../actions/fetchFeedback.ts';
+import { getHealth } from '../api/index.ts';
 
 const Main: React.FC = () => {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [feedback, setFeedback] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [serverUp, setServerUp] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  
+  const [feedback, setFeedback] = useState<number | null>(null);
   
   const { fileError, image, imageError } = useImageContext();
   const { state } = useFetchFeedbackContext();
@@ -24,6 +25,7 @@ const Main: React.FC = () => {
 
   const serverUpRef = useRef(serverUp);
 
+  // server health checker function
   const checkHealth = async () => {
     try {
       const response = await getHealth();
@@ -47,19 +49,20 @@ const Main: React.FC = () => {
     if (serverUpRef.current) fetchFeedbackRef.current();
   }, []);
 
+  // generate error messages when errors are raised
   useEffect(() => {
     if (fileError) {
-      setErrorMessage('An error occurred when uploading your image. Please reload the site and try again.');
+      setErrorMessage('An error occurred when uploading your image. Please try again.');
     } else if (imageError) {
-      setErrorMessage('An error occurred when processing your image file. Please reload the site and try again.');
+      setErrorMessage('An error occurred when processing your image file. Please try again.');
     }
   }, [fileError, imageError]);
 
+  // process feedback percentage
   useEffect(() => {
     if (state.data) {
       setFeedback(Math.round(state.data.feedback * 100));
     }
-    console.log(state.data?.feedback)
   }, [state.data]);
 
   if (isLoading) {

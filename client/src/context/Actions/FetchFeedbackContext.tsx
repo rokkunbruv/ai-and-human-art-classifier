@@ -30,7 +30,7 @@ export const useFetchFeedbackContext = () => {
   const context = useContext(FetchFeedbackContext);
 
   if (!context) {
-    throw new Error('useActionContext must be within an ActionProvider');
+    throw new Error('useFetchFeedbackContext must be within an FetchFeedbackContextProvider');
   }
   
   return context;

@@ -1,3 +1,6 @@
+// displays an error message whenever an error occurred
+// during image processing on the classifier
+
 import React from 'react';
 
 interface ErrorResultsProps {

@@ -30,7 +30,7 @@ export const useProcessImageContext = () => {
   const context = useContext(ProcessImageContext);
 
   if (!context) {
-    throw new Error('useActionContext must be within an ActionProvider');
+    throw new Error('useProcessImageContext must be within an ProcessImageContextProvider');
   }
   
   return context;

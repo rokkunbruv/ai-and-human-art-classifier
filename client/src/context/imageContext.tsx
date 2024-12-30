@@ -41,7 +41,7 @@ export const useImageContext = (): ImageContextProps => {
   const context = useContext(ImageContext);
 
   if (!context) {
-    throw new Error('useFileContext must be used within a ContextProvider');
+    throw new Error('useImageContext must be used within a ImageContextProvider');
   }
 
   return context;

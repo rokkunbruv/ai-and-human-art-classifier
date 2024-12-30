@@ -13,6 +13,7 @@ const Loading = (props: LoadingProps) => {
 
   const intervalRef = useRef(null);
 
+  // handles switching of loadingMessages every second
   useEffect(() => {
     if (loadingMessages) {
       const handleAnimation = () => {
@@ -24,7 +25,7 @@ const Loading = (props: LoadingProps) => {
         setFadeClass('opacity-0 translate-y-2');
       };
 
-      intervalRef.current = setInterval(handleAnimation, 3000);
+      intervalRef.current = setInterval(handleAnimation, loadingMessages.length * 1000);
 
       return () => {
         if (intervalRef.current) {
@@ -34,6 +35,10 @@ const Loading = (props: LoadingProps) => {
     }
   }, [loadingMessages]);
 
+  // set loading message to be displayed
+  // prioritizes loadingMessages if it is passed to the component
+  // if loadingMessages == null, the value of loadingMessage will be referred
+  // else set to default message "Loading"
   const message = loadingMessages ? loadingMessages[index] : loadingMessage ? loadingMessage : "Loading";
   
   return (

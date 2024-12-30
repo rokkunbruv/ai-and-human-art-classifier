@@ -1,3 +1,5 @@
+// previews image to be processed by the classifier
+
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +14,7 @@ const ImagePreview = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // sends image to the classifier and navigate to results page
   const handleUpload = () => {
     if (!image) {
       setImageError(true);
@@ -25,15 +28,18 @@ const ImagePreview = () => {
     navigate('/results/')
   };
 
+  // prompt file input
   const handleReselect = () => {
     fileInputRef.current?.click()
   };
 
+  // deletes the image
   const handleDiscard = () => {
     setFile(null);
     setImage(undefined);
   };
 
+  // update image when a file is selected from file input
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
 

@@ -9,6 +9,7 @@ const useProcessImage = () => {
     dispatch({ type: "PROCESS_IMAGE_LOADING" });
 
     try {
+      // obtain the base64 string of the image data url
       image = image.split(',')[1]
       
       const response = await postImage(image);

@@ -1,3 +1,4 @@
+// interface layout for results received directly from the server
 export interface ProcessImageResult {
   predicted_label: 'AI_GENERATED' | 'NON_AI_GENERATED',
   confidence_level: number,

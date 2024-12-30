@@ -1,3 +1,5 @@
+// compiles action contexts
+
 import React, { ReactNode } from 'react';
 
 import { ProcessImageContextProvider } from './Actions/ProcessImageContext.tsx';

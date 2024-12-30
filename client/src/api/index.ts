@@ -6,4 +6,5 @@ export const postImage = (image: string) => axios.post(`${url}/process-image/`, 
 export const postFeedback = (feedback: string) => axios.post(`${url}/submit-feedback/`, { feedback });
 export const getFeedback = () => axios.get(`${url}/fetch-feedback/`);
 
+// api request to check server health
 export const getHealth = () => axios.get(`${url}/health/`);

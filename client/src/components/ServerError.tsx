@@ -1,3 +1,5 @@
+// displays error message for server errors
+
 import React from 'react';
 
 const ServerError = () => {
