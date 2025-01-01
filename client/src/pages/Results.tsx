@@ -119,38 +119,43 @@ const Results = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-midnight-to-red-gradient h-screen">
-      <div className="text-white mb-4 cursor-default">
-        Your image is
-      </div>
-      <div className="normal-text-glow text-8xl font-extrabold mb-8 text-center cursor-default">
-        {predictionResult}
-      </div>
-      <div className="flex text-white gap-2 mb-4 cursor-default">
-        The classifier is <div className="normal-text-glow font-bold">{results !== null && Math.round(results.confidenceLevel * 100)}%</div> certain that your art/image is {predictionText}. That's crazy 🤯
-      </div>
-      {!feedbackSubmitted ? (
-        <div className="flex text-white text-xs gap-4 cursor-default">
-          Is the classifier correct at its guess?
-          <div onClick={handleYesFeedback} className="normal-text-glow font-bold cursor-pointer duration-300 hover:green-text-glow">
-            Yes
-          </div>
-          <div onClick={handleNoFeedback} className="normal-text-glow font-bold cursor-pointer duration-300 hover:red-text-glow">
-            No
-          </div>
+      <div className="flex flex-col items-center justify-center">
+        <div className="text-white mb-4 cursor-default">
+          Your image is
         </div>
-      ) : (
-        <div className="text-white text-xs cursor-default">
-          Thanks for the feedback! 😊
+        <div className="normal-text-glow text-8xl font-extrabold mb-8 text-center cursor-default px-4">
+          {predictionResult}
         </div>
-      )}
-      <div 
-        onClick={handleReturn}
-        className="normal-border-glow bg-pale-midnight rounded-lg w-1/6 p-2 text-white items-center mt-8 text-center cursor-pointer duration-300 hover:green-border-glow hover:font-bold"
-      >
-        Upload Again
+        <div className="flex text-white text-center gap-2 mb-4 cursor-default max-sm:flex-col max-sm:items-center">
+          <div>The classifier is</div>
+          <div className="normal-text-glow font-bold">{results !== null && Math.round(results.confidenceLevel * 100)}%</div>
+          <div>certain that your art/image is {predictionText}.</div>
+          <div>That's crazy 🤯</div>
+        </div>
+        {!feedbackSubmitted ? (
+          <div className="flex text-white text-center text-xs gap-4 cursor-default max-sm:flex-col max-sm:items-center">
+            <div>Is the classifier correct at its guess?</div>
+            <div className="flex gap-4">
+              <div onClick={handleYesFeedback} className="normal-text-glow font-bold cursor-pointer duration-300 hover:green-text-glow">
+                Yes
+              </div>
+              <div onClick={handleNoFeedback} className="normal-text-glow font-bold cursor-pointer duration-300 hover:red-text-glow">
+                No
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-white text-xs text-center cursor-default">
+            Thanks for the feedback! 😊
+          </div>
+        )}
+        <div 
+          onClick={handleReturn}
+          className="normal-border-glow bg-pale-midnight rounded-lg w-1/6 p-2 min-w-[100px] text-white items-center mt-8 text-center cursor-pointer duration-300 hover:green-border-glow hover:font-bold max-sm:w-5/12"
+        >
+          Upload Again
+        </div>
       </div>
-    </div>
   );
 }
 

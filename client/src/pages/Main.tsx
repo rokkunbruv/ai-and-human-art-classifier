@@ -5,6 +5,7 @@ import TitleHeader from '../components/TitleHeader.tsx';
 import ImagePreview from '../components/ImagePreview.tsx';
 import ServerError from '../components/ServerError.tsx';
 import Loading from '../components/Loading.tsx';
+import Footer from '../components/Footer.tsx';
 import { useImageContext } from '../context/imageContext.tsx';
 import { useFetchFeedbackContext } from '../context/Actions/FetchFeedbackContext.tsx';
 import useFetchFeedback from '../actions/fetchFeedback.ts';
@@ -74,29 +75,32 @@ const Main: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-midnight-to-red-gradient py-16">  
-      <TitleHeader />
-      <div className="mb-8 text-white">
-        <a href="/about">about this</a>
+    <div>
+      <div className="flex flex-col min-h-screen items-center pt-16 px-2">  
+        <TitleHeader />
+        <div className="mb-8 text-white text-center duration-300 hover:font-bold">
+          <a href="/about">about this</a>
+        </div>
+        {image && !fileError && !imageError ? (
+          <ImagePreview />
+        ) : (
+          <FileUpload />
+        )}
+        {(fileError) && (
+          <div className="text-white text-xs mt-2">
+            {errorMessage}
+          </div>
+        )}
+        {feedback && (
+          <div className="items-center text-white mt-4 mb-16 text-center text-xs gap-2 sm:flex">
+            <div className="max-sm:mb-2">The model is able to correctly classify your image</div>
+            <div className="normal-text-glow font-bold max-sm:mb-2">{feedback}%</div>
+            <div className="max-sm:mb-2">of the time according to user feedback.</div>
+          </div>
+        )}
       </div>
-      {image && !fileError && !imageError ? (
-        <ImagePreview />
-      ) : (
-        <FileUpload />
-      )}
-      {(fileError) && (
-        <div className="text-white text-xs mt-2">
-          {errorMessage}
-        </div>
-      )}
-      {feedback && (
-        <div className="flex items-center text-white mt-8 text-center text-xs gap-2">
-          The model is able to correctly classify your image
-          <div className="normal-text-glow font-bold">{feedback}%</div>
-          of the time according to user feedback. 
-        </div>
-      )}
-    </div>
+    <Footer />
+  </div>
   );
 }
 

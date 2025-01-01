@@ -54,26 +54,26 @@ const ImagePreview = () => {
   }
   
   return (
-    <div className="w-5/12">
+    <div className="w-5/12 max-sm:w-7/12">
       <div className="flex flex-col items-center">
-        <div className="text-cream font-bold text-2xl mb-4 cursor-default">
+        <div className="text-cream font-bold text-center text-2xl mb-4 cursor-default">
           Preview Image
         </div>
         <img
           src={image}
           alt=""
-          className="max-h-[512px] object-contain normal-border-glow rounded-lg mb-4"
+          className="min-w-[100px] max-h-[512px] object-contain normal-border-glow rounded-lg mb-4"
         />
       </div>
       <div 
         onClick={handleUpload}
-        className="cursor-pointer bg-pale-midnight normal-border-glow rounded-lg p-2 text-white text-center mb-4 duration-300 hover:green-border-glow hover:font-bold"
+        className="cursor-pointer bg-pale-midnight normal-border-glow rounded-lg p-2 min-w-[100px] text-white text-center mb-4 duration-300 hover:green-border-glow hover:font-bold"
       >
         Upload
       </div>
       <div 
         onClick={handleReselect}
-        className="cursor-pointer bg-pale-midnight normal-border-glow rounded-lg p-2 text-white text-center mb-4 duration-300 hover:white-border-glow hover:font-bold"
+        className="cursor-pointer bg-pale-midnight normal-border-glow rounded-lg p-2 min-w-[100px] text-white text-center mb-4 duration-300 hover:white-border-glow hover:font-bold"
       >
         <input
           type="file"
@@ -86,7 +86,7 @@ const ImagePreview = () => {
       </div>
       <div 
         onClick={handleDiscard}
-        className="cursor-pointer bg-pale-midnight normal-border-glow rounded-lg p-2 text-white text-center mb-4 duration-300 hover:red-border-glow hover:font-bold"
+        className="cursor-pointer bg-pale-midnight normal-border-glow rounded-lg p-2 min-w-[100px] text-white text-center mb-4 duration-300 hover:red-border-glow hover:font-bold"
       >
         Discard
       </div>

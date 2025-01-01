@@ -42,15 +42,17 @@ const Loading = (props: LoadingProps) => {
   const message = loadingMessages ? loadingMessages[index] : loadingMessage ? loadingMessage : "Loading";
   
   return (
-    <div className="flex flex-col justify-center items-center bg-midnight-to-red-gradient h-screen cursor-default">
+    <div className="flex flex-col justify-center items-center bg-midnight-to-red-gradient min-h-screen p-8 cursor-default">
       <div className=" h-12">
         <div className={
-          `normal-text-glow font-extrabold text-4xl flex gap-1 transition-all duration-500 ease-in-out ${fadeClass}`}
+          `normal-text-glow font-extrabold text-4xl text-center flex gap-1 transition-all duration-500 ease-in-out ${fadeClass} max-sm:flex-col max-sm:items-center`}
         >
           {message}
-          <span className="animate-bounce-dots">.</span> 
-          <span className="animate-bounce-dots [animation-delay:0.2s]">.</span> 
-          <span className="animate-bounce-dots [animation-delay:0.4s]">.</span>
+          <div className="flex gap-1">
+            <div className="animate-bounce-dots">.</div> 
+            <div className="animate-bounce-dots [animation-delay:0.2s]">.</div> 
+            <div className="animate-bounce-dots [animation-delay:0.4s]">.</div>
+          </div>
         </div>
       </div>
     </div>

@@ -80,7 +80,7 @@ const FileUpload: React.FC = () => {
         onDrop={handleDrop}
         onClick={handleClick}
         className={
-          `flex flex-col items-center justify-center w-5/12 h-80 bg-pale-midnight rounded-lg ${draggedOver ? "green-border-glow" : "normal-border-glow"} cursor-pointer duration-300`
+          `flex flex-col items-center justify-center w-7/12 h-80 p-8 bg-pale-midnight rounded-lg ${draggedOver ? "green-border-glow" : "normal-border-glow"} cursor-pointer duration-300 md:w-5/12`
         }
       >
         <input
@@ -96,11 +96,11 @@ const FileUpload: React.FC = () => {
           className="mb-2"
         />
         <div className={
-          `${draggedOver ? "green-text-glow" : "normal-text-glow"} font-bold text-lg mb-1 duration-300`
+          `${draggedOver ? "green-text-glow" : "normal-text-glow"} font-bold text-center text-lg mb-1 duration-300`
         }>
           UPLOAD IMAGE
         </div>
-        <div className="text-white text-center text-xs w-1/2">
+        <div className="text-white text-center text-xs md:w-1/2">
           drag and drop your image here or click this box to upload your image
         </div>
       </div>
