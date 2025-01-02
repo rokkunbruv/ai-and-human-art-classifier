@@ -1,3 +1,7 @@
+# GIT
+*/.git
+*/.gitignore
+
 # SECRETS, TOKENS AND ENVIRONMENTAL VARIABLES
 client/.env
 server/.env
@@ -8,6 +12,7 @@ ai_model/kaggle.json
 
 # ENVIRONMENTS
 /venv
+*/venv
 
 # DEPENDENCIES
 client/node_modules
@@ -19,3 +24,6 @@ server/main/__pycache__
 
 # TESTING FILES THAT AREN'T NEEDED TO BE COMMITTED
 ai_model/test_data
+
+# JEST COVERAGE
+client/coverage/*
