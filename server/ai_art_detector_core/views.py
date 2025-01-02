@@ -1,7 +1,4 @@
 import json
-import base64
-from PIL import Image, ImageFile
-import io
 
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
@@ -30,14 +27,8 @@ def process_image(request):
 
         if not b64_image:
             return JsonResponse({ 'success': False, 'error': 'No image provided' }, status=400)
-
-        image_data = base64.b64decode(b64_image)
-
-        ImageFile.LOAD_TRUNCATED_IMAGES = True
-
-        image = Image.open(io.BytesIO(image_data))
-
-        predicted_label, confidence_level = process_image_to_model(image)
+        
+        predicted_label, confidence_level = process_image_to_model(b64_image)
 
         return JsonResponse(
             { 
