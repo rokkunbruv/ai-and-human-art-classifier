@@ -101,6 +101,9 @@ def fetch_feedback(request):
     try:
         feedback = ModelFeedback.objects.first()
 
+        if not feedback:
+            return JsonResponse({ 'success': False, 'error': 'Database is empty' }, status=400)
+
         positive_responses = feedback.positive_count
         total_responses = feedback.positive_count + feedback.negative_count
 
